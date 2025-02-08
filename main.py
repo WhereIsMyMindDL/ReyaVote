@@ -43,7 +43,7 @@ class ReyaVote:
             "domain": {
                 "name": "Reya",
                 "version": "1",
-                "verifyingContract": "0x4f0d39f31c21135cbaf485f9e95c1a4e235623f8"
+                "verifyingContract": "0xce0c48b15a305f4675ced41ccebdc923d03b9b81"
             },
             "primaryType": "CastVoteBySig",  # This needs to match the type being signed
             "message": {
@@ -78,14 +78,14 @@ class ReyaVote:
             self.client = client
 
             response: aiohttp.ClientResponse = await self.client.get(
-                f'https://api.reya.xyz/api/vote/rnip2/user/{self.account.address}',
+                f'https://api.reya.xyz/api/vote/rnip3/user/{self.account.address}',
                 proxy=self.proxy,
             )
             response_json: dict = await response.json()
             if response_json['votingPower'] > 0 and not response_json['hasVoted']:
                 signature, deadline = await ReyaVote.create_message(self)
                 response: aiohttp.ClientResponse = await self.client.put(
-                    f'https://api.reya.xyz/api/vote/0x4f0d39f31c21135cbaf485f9e95c1a4e235623f8/vote',
+                    f'https://api.reya.xyz/api/vote/0xce0c48b15a305f4675ced41ccebdc923d03b9b81/vote',
                     json={
                         'voter': self.account.address,
                         'isYesVote': 'yes',
